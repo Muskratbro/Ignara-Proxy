@@ -1,1 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Research Resources</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <style>
+    body {
+      margin: 0;
+      font-family: "Times New Roman", Times, serif;
+      background: #ffffff;
+      color: #000000;
+    }
+
+    header {
+      padding: 16px;
+      border-bottom: 2px solid #000;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0 0 6px 0;
+    }
+
+    p {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 800px;
+    }
+
+    ul {
+      margin-top: 20px;
+      padding-left: 20px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    a {
+      color: #0000ee;
+      text-decoration: underline;
+    }
+
+    a:visited {
+      color: #551a8b;
+    }
+
+    .locked {
+      margin-top: 30px;
+      padding: 6px 10px;
+      border: 1px solid #000;
+      background: #f0f0f0;
+      display: inline-block;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding-top: 10px;
+      border-top: 1px solid #000;
+      font-size: 12px;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      z-index: 10;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border: 2px solid #000;
+      width: 300px;
+      padding: 12px;
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .modal-box strong {
+      font-size: 14px;
+    }
+
+    .modal-box p {
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .modal-box input {
+      width: 100%;
+      margin-top: 8px;
+      font-family: inherit;
+      font-size: 13px;
+    }
+
+    .modal-box button {
+      margin-top: 8px;
+      font-family: inherit;
+      font-size: 13px;
+    }
+
+    /* Workspace */
+    #workspace {
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      display: none;
+      z-index: 20;
+    }
+
+    #workspace iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Project Research Resources</h1>
+  <p>Approved websites and materials for classroom research and assignments.</p>
+</header>
+
+<main>
+  <ul>
+    <li><a href="https://www.khanacademy.org" target="_blank">Khan Academy</a></li>
+    <li><a href="https://scholar.google.com" target="_blank">Google Scholar</a></li>
+    <li><a href="https://www.britannica.com" target="_blank">Encyclopedia Britannica</a></li>
+    <li><a href="https://www.nationalgeographic.com" target="_blank">National Geographic</a></li>
+    <li><a href="https://www.loc.gov" target="_blank">Library of Congress</a></li>
+    <li><a href="https://www.worldhistory.org" target="_blank">World History Encyclopedia</a></li>
+  </ul>
+
+  <div class="locked" id="openLocked">
+    Additional Learning Tools (class code required)
+  </div>
+
+  <footer>
+    Maintained by: Science Department<br>
+    Last updated: March 2026<br>
+    Some materials are limited to students with a valid class code.
+  </footer>
+</main>
+
+<!-- Class Code Modal -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <strong>Class Access</strong>
+    <p>
+      This section is only available to students enrolled in this class.
+      Enter the class code provided by your teacher.
+    </p>
+    <input type="password" id="codeInput">
+    <button id="submitCode">Continue</button>
+  </div>
+</div>
+
+<!-- Workspace -->
+<div id="workspace">
+  <iframe id="workspaceFrame"></iframe>
+</div>
+
+<script>
+  const modal = document.getElementById("modal");
+  const openLocked = document.getElementById("openLocked");
+  const submitCode = document.getElementById("submitCode");
+  const codeInput = document.getElementById("codeInput");
+  const workspace = document.getElementById("workspace");
+  const frame = document.getElementById("workspaceFrame");
+
+  openLocked.onclick = () => {
+    modal.style.display = "block";
+    codeInput.value = "";
+    codeInput.focus();
+  };
+
+  submitCode.onclick = async () => {
+    const code = codeInput.value.trim();
+    if (!code) return;
+
+    submitCode.disabled = true;
+
+    try {
+      // Send code to your Worker (no /verify path needed)
+      const res = await fetch("https://classcodecheck.muskratbro.workers.dev", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code })
+      });
+
+      const data = await res.json();
+
+      if (data.ok) {
+        // Verified → embed main content
+        modal.style.display = "none";
+        workspace.style.display = "block";
+        frame.src = "sfadjl;keji,sdhfjlkes;hfeuj.html"; // your internal page
+        document.title = "Lesson Viewer";
+      } else {
+        alert("Invalid class code.");
+      }
+    } catch (e) {
+      alert("Resource temporarily unavailable.");
+    }
+
+    submitCode.disabled = false;
+  };
+
+  // Escape key closes workspace
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && workspace.style.display === "block") {
+      workspace.style.display = "none";
+      frame.src = "";
+      document.title = "Research Resources";
+    }
+  });
+</script>
+
+</body>
+</html>
