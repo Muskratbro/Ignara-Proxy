@@ -1,0 +1,173 @@
+/* ------------------ Reset & Basics ------------------ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  color: #f0f0f0;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------ Header ------------------ */
+header {
+  background-color: #1e1e1e;
+  padding: 12px 20px;
+  z-index: 100;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+header nav ul li a {
+  color: #ffcc00;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+header nav ul li a:hover {
+  background-color: #ffcc0040;
+  color: #ffffff;
+}
+
+/* ------------------ Iframe Container ------------------ */
+#mainContent {
+  flex: 1;
+  position: relative;
+}
+
+#contentEmbed {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+  background-color: #000;
+  transition: opacity 0.3s ease;
+  display: block;
+}
+
+/* Safe Mode message */
+#safeMode {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #121212;
+  color: #ffcc00;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  z-index: 999;
+}
+
+/* ------------------ Footer ------------------ */
+footer {
+  background-color: #1e1e1e;
+  text-align: center;
+  padding: 10px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* ------------------ Overlay ------------------ */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(18, 18, 18, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+#overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#overlayContent {
+  background-color: #1e1e1e;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 90%;
+  color: #f0f0f0;
+  box-shadow: 0 0 20px #ffcc00;
+}
+
+#overlayContent h2 {
+  margin-bottom: 15px;
+  color: #ffcc00;
+  font-size: 1.8rem;
+}
+
+#overlayContent p {
+  margin-bottom: 20px;
+  font-size: 1rem;
+  color: #ddd;
+}
+
+#overlayContent button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: #ffcc00;
+  color: #121212;
+  transition: background-color 0.2s ease;
+}
+
+#overlayContent button:hover {
+  background-color: #e6b800;
+}
+
+/* ------------------ Responsive ------------------ */
+@media (max-width: 768px) {
+  header nav ul {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  #overlayContent h2 {
+    font-size: 1.5rem;
+  }
+
+  #overlayContent p {
+    font-size: 0.9rem;
+  }
+
+  #overlayContent button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
